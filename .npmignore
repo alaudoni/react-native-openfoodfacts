@@ -1,0 +1,5 @@
+node_modules
+src
+*.log
+babel.config.js
+tsconfig.json
