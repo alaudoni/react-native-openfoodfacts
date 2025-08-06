@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React, { ReactNode } from "react";
+import { getProduct as fetchProduct } from "./api/getProduct";
 import {
   PRODUCTION_ENV,
   PRODUCTION_URL,
@@ -54,8 +55,19 @@ export const OpenFoodFactsProvider = ({
   config,
 }: OFFProviderProps) => {
   const effectiveConfig = getDefaultConfig(config);
+
+  const openFoodFactsApi = {
+    getProduct: (ean: string) =>
+      fetchProduct(ean, effectiveConfig.baseUrl, effectiveConfig.headers),
+  };
+
   return (
-    <OpenFoodFactsConfigContext.Provider value={effectiveConfig}>
+    <OpenFoodFactsConfigContext.Provider
+      value={{
+        config: effectiveConfig,
+        api: openFoodFactsApi,
+      }}
+    >
       <QueryClientProvider client={queryClient ?? defaultClient}>
         {children}
       </QueryClientProvider>

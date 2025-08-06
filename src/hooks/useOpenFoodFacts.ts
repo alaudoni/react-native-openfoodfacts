@@ -1,22 +1,23 @@
 import { QueryClient } from "@tanstack/react-query";
 import { useContext } from "react";
-import { getProduct as fetchProduct } from "../api/getProduct";
+import { OPENFOODFACTS_QUERY_KEY } from "../constants";
 import { OpenFoodFactsConfigContext } from "../types";
 
 export function useOpenFoodFacts() {
-  const config = useContext(OpenFoodFactsConfigContext);
+  const context = useContext(OpenFoodFactsConfigContext);
   const queryClient = new QueryClient();
 
-  const getProduct = async (ean: string, category: string) => {
-    const baseUrl = (config as any)?.baseUrl;
-    const headers = (config as any)?.headers;
-    if (!baseUrl) {
-      throw new Error("OpenFoodFacts baseUrl not found in context");
-    }
+  if (!context) {
+    throw new Error(
+      "OpenFoodFactsContext not found. Make sure you are using OpenFoodFactsProvider."
+    );
+  }
+
+  const getProduct = async (ean: string) => {
     return queryClient.fetchQuery({
-      queryKey: ["openfoodfacts", ean],
-      queryFn: () => fetchProduct(ean, baseUrl, headers),
-      staleTime: 1000 * 60 * 5, // 5 minuti
+      queryKey: [OPENFOODFACTS_QUERY_KEY, ean],
+      queryFn: () => context.api.getProduct(ean),
+      staleTime: 1000 * 60 * 5,
     });
   };
 

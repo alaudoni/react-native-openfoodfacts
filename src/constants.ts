@@ -5,3 +5,5 @@ export const STAGING_ENV = "staging";
 
 export const PRODUCTION_URL = "https://world.openfoodfacts.org";
 export const STAGING_URL = "https://world.openfoodfacts.net";
+
+export const OPENFOODFACTS_QUERY_KEY = "openfoodfacts";
