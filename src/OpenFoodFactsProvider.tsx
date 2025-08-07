@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React, { ReactNode } from "react";
 import { getProduct as fetchProduct } from "./api/getProduct";
 import {
+  DEFAULT_CACHE_TIME,
   PRODUCTION_ENV,
   PRODUCTION_URL,
   STAGING_ENV,
@@ -26,6 +27,7 @@ const getDefaultConfig = (config?: OpenFoodFactsConfig) => {
   const environment: OpenFoodFactsEnvironment =
     config?.environment ?? PRODUCTION_ENV;
   let headers = config?.headers;
+  const cacheTime = config?.cacheTime ?? DEFAULT_CACHE_TIME;
 
   // baseUrl è sempre calcolata internamente
   const baseUrl = environment === STAGING_ENV ? STAGING_URL : PRODUCTION_URL;
@@ -60,6 +62,7 @@ const getDefaultConfig = (config?: OpenFoodFactsConfig) => {
     headers,
     baseUrl,
     userAgent,
+    cacheTime,
   };
 };
 

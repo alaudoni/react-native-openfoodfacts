@@ -10,6 +10,8 @@ export type OpenFoodFactsConfig = {
   appName?: string;
   version?: string;
   contactEmail?: string;
+  // Cache time in minutes (default: 10)
+  cacheTime?: number;
 };
 
 export type OpenFoodFactsApi = {
