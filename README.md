@@ -31,7 +31,17 @@ import { OpenFoodFactsProvider } from "react-native-openfoodfacts";
 
 export default function App() {
   return (
-    <OpenFoodFactsProvider>{/* Your app components */}</OpenFoodFactsProvider>
+    <OpenFoodFactsProvider
+      config={{
+        environment: "staging", // or "production"
+        appName: "Your App Name",
+        version: "1.0.0",
+        contactEmail: "your-email@example.com",
+        cacheTime: 10, // optional, cache time in minutes (default: 10)
+      }}
+    >
+      {/* Your app components */}
+    </OpenFoodFactsProvider>
   );
 }
 ```
@@ -42,15 +52,24 @@ export default function App() {
 import { useOpenFoodFacts } from "react-native-openfoodfacts";
 
 export default function ProductScreen() {
-  const { data, isLoading, error } = useOpenFoodFacts("3017620422003"); // Example EAN
+  const { getProduct } = useOpenFoodFacts();
+
+  const {
+    data: productResponse,
+    isLoading,
+    error,
+  } = getProduct("3017620422003"); // Example EAN
+
+  const product = productResponse?.product;
 
   if (isLoading) return <Text>Loading...</Text>;
   if (error) return <Text>Error: {error.message}</Text>;
+  if (!product) return <Text>Product not found</Text>;
 
   return (
     <View>
-      <Text>{data?.product_name}</Text>
-      {/* Other data... */}
+      <Text>{product.product_name}</Text>
+      <Text>{product.brands}</Text>
     </View>
   );
 }
@@ -60,7 +79,6 @@ export default function ProductScreen() {
 
 - [OpenFoodFacts](https://world.openfoodfacts.org/)
 - [OpenFoodFacts API](https://world.openfoodfacts.org/data)
-- [Flutter SDK openfoodfacts-dart](https://github.com/openfoodfacts/openfoodfacts-dart)
 
 ---
 

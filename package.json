@@ -6,8 +6,17 @@
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alaudoni/react-native-openfoodfacts.git"
+  },
+  "homepage": "https://github.com/alaudoni/react-native-openfoodfacts#readme",
+  "bugs": {
+    "url": "https://github.com/alaudoni/react-native-openfoodfacts/issues"
+  },
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -16,6 +25,8 @@
   },
   "scripts": {
     "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "version": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -28,6 +39,10 @@
   "author": "Andrea Laudoni",
   "license": "ISC",
   "type": "commonjs",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  },
   "dependencies": {
     "@tanstack/react-query": "^5.84.1",
     "axios": "^1.11.0"
