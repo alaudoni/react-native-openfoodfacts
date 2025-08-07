@@ -1,0 +1,10 @@
+node_modules
+src
+*.log
+babel.config.js
+tsconfig.json
+example
+.git
+.gitignore
+*.tgz
+.DS_Store
