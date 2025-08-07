@@ -5,7 +5,7 @@ export default function RootLayout() {
   return (
     <OpenFoodFactsProvider
       config={{
-        environment: "staging",
+        environment: "production",
         appName: "Sicurezza Alimentare",
         version: "1.0.0",
         contactEmail: "andrealaudoni@gmail.com",

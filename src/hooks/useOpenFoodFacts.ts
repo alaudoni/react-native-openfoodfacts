@@ -1,11 +1,11 @@
-import { QueryClient } from "@tanstack/react-query";
-import { useContext } from "react";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { useCallback, useContext } from "react";
 import { DEFAULT_CACHE_TIME, OPENFOODFACTS_QUERY_KEY } from "../constants";
 import { OpenFoodFactsConfigContext } from "../types";
+import { ProductResponse } from "../types/product";
 
 export function useOpenFoodFacts() {
   const context = useContext(OpenFoodFactsConfigContext);
-  const queryClient = new QueryClient();
 
   if (!context) {
     throw new Error(
@@ -22,13 +22,16 @@ export function useOpenFoodFacts() {
     );
   }
 
-  const getProduct = async (ean: string) => {
-    return queryClient.fetchQuery({
-      queryKey: [OPENFOODFACTS_QUERY_KEY, ean],
-      queryFn: () => context.api.getProduct(ean),
-      staleTime: 1000 * 60 * (context.config.cacheTime ?? DEFAULT_CACHE_TIME),
-    });
-  };
+  const getProduct = useCallback(
+    (ean: string): UseQueryResult<ProductResponse, Error> => {
+      return useQuery({
+        queryKey: [OPENFOODFACTS_QUERY_KEY, ean],
+        queryFn: () => context.api.getProduct(ean),
+        staleTime: 1000 * 60 * (context.config.cacheTime ?? DEFAULT_CACHE_TIME),
+      });
+    },
+    [context.api, context.config.cacheTime]
+  );
 
   return { getProduct };
 }

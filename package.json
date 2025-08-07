@@ -1,6 +1,6 @@
 {
   "name": "react-native-openfoodfacts",
-  "version": "0.1.2",
+  "version": "0.1.0",
   "description": "Hook to access OpenFoodFacts API from React Native",
   "main": "dist/index.js",
   "module": "dist/index.js",
