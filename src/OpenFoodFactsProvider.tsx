@@ -8,6 +8,7 @@ import {
   STAGING_URL,
 } from "./constants";
 import {
+  OpenFoodFactsApi,
   OpenFoodFactsConfig,
   OpenFoodFactsConfigContext,
   OpenFoodFactsEnvironment,
@@ -29,6 +30,11 @@ const getDefaultConfig = (config?: OpenFoodFactsConfig) => {
   // baseUrl è sempre calcolata internamente
   const baseUrl = environment === STAGING_ENV ? STAGING_URL : PRODUCTION_URL;
 
+  let userAgent = "";
+  if (config?.appName && config?.version && config?.contactEmail) {
+    userAgent = `${config.appName}/${config.version} (${config.contactEmail})`;
+  }
+
   if (environment === STAGING_ENV && !headers?.Authorization) {
     headers = {
       ...headers,
@@ -40,12 +46,20 @@ const getDefaultConfig = (config?: OpenFoodFactsConfig) => {
     };
   }
 
+  // Aggiungiamo lo User-Agent agli headers se presente
+  if (userAgent) {
+    headers = {
+      ...headers,
+      "User-Agent": userAgent,
+    };
+  }
+
   return {
     ...config,
     environment,
     headers,
-    // baseUrl non più esposto nel config, ma lo restituiamo come proprietà interna se serve
     baseUrl,
+    userAgent,
   };
 };
 
@@ -54,17 +68,17 @@ export const OpenFoodFactsProvider = ({
   queryClient,
   config,
 }: OFFProviderProps) => {
-  const effectiveConfig = getDefaultConfig(config);
+  const currentConfig = getDefaultConfig(config);
 
-  const openFoodFactsApi = {
+  const openFoodFactsApi: OpenFoodFactsApi = {
     getProduct: (ean: string) =>
-      fetchProduct(ean, effectiveConfig.baseUrl, effectiveConfig.headers),
+      fetchProduct(ean, currentConfig.baseUrl, currentConfig.headers),
   };
 
   return (
     <OpenFoodFactsConfigContext.Provider
       value={{
-        config: effectiveConfig,
+        config: currentConfig,
         api: openFoodFactsApi,
       }}
     >

@@ -1,15 +1,19 @@
 import React from "react";
+import { ProductResponse } from "./types/product";
 
 export type OpenFoodFactsEnvironment = "production" | "staging";
 
 export type OpenFoodFactsConfig = {
   environment?: OpenFoodFactsEnvironment;
   headers?: Record<string, string>;
-  userAgent?: string;
+  // Parametri per la composizione dello User-Agent
+  appName?: string;
+  version?: string;
+  contactEmail?: string;
 };
 
 export type OpenFoodFactsApi = {
-  getProduct: (ean: string) => Promise<any>;
+  getProduct: (ean: string) => Promise<ProductResponse>;
 };
 
 export const OpenFoodFactsConfigContext = React.createContext<

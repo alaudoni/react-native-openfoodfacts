@@ -12,6 +12,15 @@ export function useOpenFoodFacts() {
       "OpenFoodFactsContext not found. Make sure you are using OpenFoodFactsProvider."
     );
   }
+  if (
+    !context.config?.appName ||
+    !context.config?.version ||
+    !context.config?.contactEmail
+  ) {
+    throw new Error(
+      "Missing required config properties. Make sure appName, version, and contactEmail are provided to OpenFoodFactsProvider."
+    );
+  }
 
   const getProduct = async (ean: string) => {
     return queryClient.fetchQuery({

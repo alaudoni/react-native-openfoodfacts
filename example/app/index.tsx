@@ -9,7 +9,7 @@ export default function Index() {
     const fetchProduct = async () => {
       try {
         const product = await getProduct("3017620422003");
-        console.log("Product data:", product);
+        console.log("Product data:", JSON.stringify(product));
       } catch (error) {
         console.error("Error fetching product:", error);
       }
