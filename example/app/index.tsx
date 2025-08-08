@@ -1,6 +1,8 @@
+import { useState } from "react";
 import {
   ActivityIndicator,
   Image,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -11,11 +13,19 @@ import { useOpenFoodFacts } from "react-native-openfoodfacts";
 export default function Index() {
   const { getProduct } = useOpenFoodFacts();
 
+  const [ean, setEan] = useState("");
   const {
     data: productResponse,
     isLoading,
     error,
   } = getProduct("3017620422003");
+  // const {
+  //   data: productResponse,
+  //   isLoading,
+  //   error,
+  // } = getProduct(ean, {
+  //   enabled: !!ean,
+  // });
 
   const product = productResponse?.product;
 
@@ -43,6 +53,9 @@ export default function Index() {
     return (
       <View style={styles.centered}>
         <Text style={styles.errorText}>Nessun prodotto disponibile</Text>
+        <Pressable onPress={() => setEan("3017620422003")}>
+          <Text>Riprova</Text>
+        </Pressable>
       </View>
     );
   }

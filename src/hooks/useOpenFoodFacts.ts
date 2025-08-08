@@ -1,4 +1,8 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import {
+  useQuery,
+  UseQueryOptions,
+  UseQueryResult,
+} from "@tanstack/react-query";
 import { useCallback, useContext } from "react";
 import { DEFAULT_CACHE_TIME, OPENFOODFACTS_QUERY_KEY } from "../constants";
 import { OpenFoodFactsConfigContext } from "../types";
@@ -23,11 +27,18 @@ export function useOpenFoodFacts() {
   }
 
   const getProduct = useCallback(
-    (ean: string): UseQueryResult<ProductResponse, Error> => {
+    (
+      ean: string,
+      options?: Omit<
+        UseQueryOptions<ProductResponse, Error>,
+        "queryKey" | "queryFn"
+      >
+    ): UseQueryResult<ProductResponse, Error> => {
       return useQuery({
         queryKey: [OPENFOODFACTS_QUERY_KEY, ean],
         queryFn: () => context.api.getProduct(ean),
         staleTime: 1000 * 60 * (context.config.cacheTime ?? DEFAULT_CACHE_TIME),
+        ...options,
       });
     },
     [context.api, context.config.cacheTime]

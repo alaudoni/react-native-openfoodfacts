@@ -75,6 +75,23 @@ export default function ProductScreen() {
 }
 ```
 
+### Passing options to getProduct
+
+You can pass additional options (such as `enabled`, `staleTime`, etc.) to `getProduct`:
+
+```tsx
+const { getProduct } = useOpenFoodFacts();
+
+const {
+  data: productResponse,
+  isLoading,
+  error,
+} = getProduct(ean, {
+  enabled: !!ean, // the query will only run if ean has a value
+  // staleTime: 5000, // you can set other React Query options as well
+});
+```
+
 ## Useful links
 
 - [OpenFoodFacts](https://world.openfoodfacts.org/)
