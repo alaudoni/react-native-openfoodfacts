@@ -1,4 +1,5 @@
 import React from "react";
+import type { FetchFn } from "@openfoodfacts/openfoodfacts-nodejs";
 import { ProductResponse } from "./types/product";
 
 export type OpenFoodFactsEnvironment = "production" | "staging";
@@ -6,7 +7,8 @@ export type OpenFoodFactsEnvironment = "production" | "staging";
 export type OpenFoodFactsConfig = {
   environment?: OpenFoodFactsEnvironment;
   headers?: Record<string, string>;
-  // Parametri per la composizione dello User-Agent
+  fetch?: FetchFn;
+  // Application identity used in the User-Agent header
   appName?: string;
   version?: string;
   contactEmail?: string;
@@ -15,7 +17,7 @@ export type OpenFoodFactsConfig = {
 };
 
 export type OpenFoodFactsApi = {
-  getProduct: (ean: string) => Promise<ProductResponse>;
+  getProduct: (ean: string, signal?: AbortSignal) => Promise<ProductResponse>;
 };
 
 export const OpenFoodFactsConfigContext = React.createContext<

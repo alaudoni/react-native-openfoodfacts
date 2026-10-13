@@ -1,13 +1,14 @@
 {
   "name": "react-native-openfoodfacts",
-  "version": "0.1.0",
-  "description": "Hook to access OpenFoodFacts API from React Native",
+  "version": "0.2.0",
+  "description": "React Native hooks and client for the official Open Food Facts JavaScript SDK",
   "main": "dist/index.js",
-  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "docs/sdk-compatibility.md",
+    "CHANGELOG.md"
   ],
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   },
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.js"
     }
@@ -27,7 +29,8 @@
     "build": "tsc",
     "prepublishOnly": "npm run build",
     "version": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "typecheck": "tsc --noEmit",
+    "prepack": "npm run build"
   },
   "keywords": [
     "react-native",
@@ -44,13 +47,16 @@
     "npm": ">=7.0.0"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.84.1",
-    "axios": "^1.11.0"
+    "@openfoodfacts/openfoodfacts-nodejs": "2.0.0-alpha.35"
   },
   "devDependencies": {
     "@types/react": "^19.1.9",
-    "@types/react-native": "^0.72.8",
-    "metro-react-native-babel-preset": "^0.77.0",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "react": "19.1.0",
+    "@tanstack/react-query": "^5.84.1"
+  },
+  "peerDependencies": {
+    "react": ">=18 <20",
+    "@tanstack/react-query": "^5.84.1"
   }
 }

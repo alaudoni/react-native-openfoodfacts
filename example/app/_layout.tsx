@@ -5,8 +5,8 @@ export default function RootLayout() {
   return (
     <OpenFoodFactsProvider
       config={{
-        environment: "production",
-        appName: "Sicurezza Alimentare",
+        environment: "staging",
+        appName: "ReactNativeOpenFoodFactsExample",
         version: "1.0.0",
         contactEmail: "andrealaudoni@gmail.com",
       }}
